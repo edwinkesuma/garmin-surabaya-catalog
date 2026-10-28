@@ -81,6 +81,50 @@ export const actions: Actions = {
 		};
 	},
 
+	update: async ({ request, locals }) => {
+    	if (!locals.user) {
+      		return fail(401, {
+        		message: 'Silakan login terlebih dahulu.'
+      		});
+    	}
+
+    	const formData = await request.formData();
+    	const id = formData.get('id');
+    	const name = String(formData.get('name') ?? '').trim();
+
+    	if (!name || name.length > 100) {
+      		return fail(400, {
+        		message: 'ID atau nama category tidak valid.'
+      		});
+    	}
+
+    	const { data, error } = await locals.supabase
+      		.from('categories')
+      		.update({ name })
+      		.eq('id', id)
+      		.select('id')
+      		.maybeSingle();
+
+    	if (error) {
+      		console.error('Update category failed:', error.message);
+
+      		return fail(500, {
+        		message: 'Gagal memperbarui category.'
+      		});
+    	}
+
+    	if (!data) {
+      		return fail(404, {
+        		message: 'Category tidak ditemukan atau tidak dapat diubah.'
+      		});
+    	}
+
+    	return {
+      		success: true,
+      		message: 'Category berhasil diperbarui.'
+    	};
+  	},
+	
 	delete: async ({ request, locals }) => {
     	if (!locals.user) {
         	return fail(401, {
@@ -97,18 +141,6 @@ export const actions: Actions = {
 
     	const formData = await request.formData();
     	const rawId = formData.get('id');
-
-    	// if (
-        // 	typeof rawId !== 'string' ||
-        // 	!/^[1-9]\d*$/.test(rawId) ||
-        // 	!Number.isSafeInteger(Number(rawId))
-    	// ) {
-        // 	return fail(400, {
-        //     	message: 'ID kategori tidak valid.'
-        // 	});
-    	// }
-
-    	// const id = Number(rawId);
 
     	// Periksa apakah kategori masih digunakan oleh produk.
     	const { count, error: countError } = await locals.supabase

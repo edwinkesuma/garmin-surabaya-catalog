@@ -13,6 +13,8 @@
 
 
   let isCreateModalOpen = $state(false);
+  let editValue = $state("");
+  let idEdit = $state("");
   let isSubmitting = $state(false);
 </script>
 
@@ -76,7 +78,15 @@
 						</td>
 						<td class="px-5 py-4">
 							<div class="flex justify-end gap-1.5">
-								<button aria-label={`Edit ${category.name}`} onclick={() => alert(`Connect edit action for ${category.name}.`)} class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#68665f] transition hover:border-black/20 hover:bg-[#f6f5f2]">
+								<button 
+									aria-label={`Edit ${category.name}`} 
+									onclick={() => {
+										isCreateModalOpen = true;
+										editValue = category.name;
+										idEdit = category.id;
+									}} 
+									class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#68665f] transition hover:border-black/20 hover:bg-[#f6f5f2]"
+								>
 									<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.7">
 										<path d="m14 5 5 5M4 20l4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/>
 									</svg>
@@ -130,8 +140,72 @@
 		</table>
 	</div>
 
-    <div class="divide-y divide-black/[0.06] md:hidden">{#each filteredCategories as category (category.id)}<article class="flex items-center gap-3 p-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#e9e3da] bg-[#f7f3ed] text-[#8b745d]"><svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.4 7.8 7.6 4.4 7.6-4.4M12 12.2V21"/></svg></span><div class="min-w-0 flex-1"><div class="flex items-center justify-between gap-2"><p class="truncate text-xs font-semibold">{category.name}</p><span class="shrink-0 rounded-lg bg-[#f3f0eb] px-2 py-1 text-[10px] font-medium text-[#71614f]">{category.product_count} {category.product_count === 1 ? 'product' : 'products'}</span></div><p class="mt-1 truncate text-[10px] text-[#99978f]">/{category.slug} · Created {category.created_at}</p><p class="mt-1 truncate text-[10px] text-[#77756e]">{category.description}</p></div><div class="flex shrink-0 gap-1"><button aria-label={`Edit ${category.name}`} onclick={() => alert(`Connect edit action for ${category.name}.`)} class="rounded-lg border border-black/10 p-2 text-[#68665f]"><svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 5 5 5M4 20l4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/></svg></button><button aria-label={`Delete ${category.name}`} onclick={() => removeCategory(category.id)} class="rounded-lg border border-black/10 p-2 text-[#8a7770]"><svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"/></svg></button></div></article>{:else}<div class="p-10 text-center text-xs text-[#99978f]">No categories found.</div>{/each}</div>
-    <div class="flex flex-col gap-2 border-t border-black/[0.06] bg-[#fdfcfb] px-5 py-3.5 text-[10px] text-[#99978f] sm:flex-row sm:items-center sm:justify-between"><span>Showing <strong class="font-semibold text-[#5e5c56]">{filteredCategories.length}</strong> of {data.categories.length} categories</span><span>Categories are text-based · No image required</span></div>
+    <div class="divide-y divide-black/[0.06] md:hidden">
+		{#each filteredCategories as category (category.id)}
+		<article class="flex items-center gap-3 p-4">
+			<span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#e9e3da] bg-[#f7f3ed] text-[#8b745d]">
+				<svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="1.6">
+					<path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/>
+					<path d="m4.4 7.8 7.6 4.4 7.6-4.4M12 12.2V21"/>
+				</svg>
+			</span>
+			<div class="min-w-0 flex-1">
+				<div class="flex items-center justify-between gap-2">
+					<p class="truncate text-xs font-semibold">{category.name}</p>
+					<span class="shrink-0 rounded-lg bg-[#f3f0eb] px-2 py-1 text-[10px] font-medium text-[#71614f]">{category.product_count} {category.product_count === 1 ? 'product' : 'products'}</span>
+				</div>
+				<p class="mt-1 truncate text-[10px] text-[#99978f]">/{category.slug} · Created {category.created_at}</p>
+				<p class="mt-1 truncate text-[10px] text-[#77756e]">{category.description}</p>
+			</div>
+			<div class="flex shrink-0 gap-1">
+				<button aria-label={`Edit ${category.name}`} onclick={() => alert(`Connect edit action for ${category.name}.`)} class="rounded-lg border border-black/10 p-2 text-[#68665f]">
+					<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.7">
+						<path d="m14 5 5 5M4 20l4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/>
+					</svg>
+				</button>
+				<form
+                    method="POST"
+                    action="?/delete"
+					use:enhance={() => {
+                		return async ({ result, update }) => {
+                    		await update({ invalidateAll: false });
+
+                    		if (result.type === 'success') {
+                        		await refreshAll();
+                    		}
+                		};
+            		}}
+					onsubmit={(event) => {
+        				if (!confirm(`Hapus kategori "${category.name}"?`)) {
+            				event.preventDefault();
+        				}
+    				}}
+                >
+                    <input
+                        type="hidden"
+                        name="id"
+                        value={category.id}
+                    />
+						<button 
+							aria-label={`Delete ${category.name}`}
+							type="submit"
+							class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#8a7770] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+						>
+							<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.7">
+								<path d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"/>
+							</svg>
+						</button>
+                </form>
+			</div>
+		</article>
+		{:else}
+		<div class="p-10 text-center text-xs text-[#99978f]">No categories found.</div>
+		{/each}
+	</div>
+    <div class="flex flex-col gap-2 border-t border-black/[0.06] bg-[#fdfcfb] px-5 py-3.5 text-[10px] text-[#99978f] sm:flex-row sm:items-center sm:justify-between">
+		<span>Showing <strong class="font-semibold text-[#5e5c56]">{filteredCategories.length}</strong> of {data.categories.length} categories</span>
+		<span>Categories are text-based · No image required</span>
+	</div>
   </section>
 </div>
 
@@ -158,7 +232,7 @@
 					</h2>
 
 					<p class="mt-1 text-sm text-neutral-500">
-						Add a new category to your catalog.
+						{editValue === ""? "Add a new category to your catalog.":"Edit your catalog's category."}
 					</p>
 				</div>
 
@@ -166,6 +240,8 @@
 					type="button"
 					onclick={() => {
 						isCreateModalOpen = false;
+						editValue = "";
+						idEdit = "";
 					}}
 					aria-label="Close modal"
 					class="rounded-lg p-1 text-xl leading-none text-neutral-400
@@ -178,7 +254,7 @@
 			<!-- Form -->
 			<form
 				method="POST"
-				action="?/create"
+				action={editValue === "" ? "?/create" : "?/update"}
 				use:enhance={() => {
 					isSubmitting = true;
 
@@ -187,6 +263,8 @@
 
 						if (result.type === 'success') {
 							isCreateModalOpen = false;
+							editValue = "";
+							idEdit = "";
 						}
 
 						await update();
@@ -209,19 +287,23 @@
 						required
 						maxlength="100"
 						placeholder="e.g. Smartwatch"
+						value={editValue}
 						class="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3
 							text-sm text-neutral-900 outline-none transition
 							placeholder:text-neutral-400
 							focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10"
 					/>
+					{#if editValue !== ""}
+						<input
+							name="id"
+							type="hidden"
+							value={idEdit}
+						/>
+					{/if}
 
 					{#if form?.error}
     					<p class="mt-2 text-sm text-red-600" role="alert">
         					{form.error}
-    					</p>
-					{:else if form?.success}
-    					<p class="mt-2 text-sm text-green-600" role="status">
-        					Berhasil menyimpan data.
     					</p>
 					{/if}
 				</div>
@@ -232,6 +314,8 @@
 						type="button"
 						onclick={() => {
 							isCreateModalOpen = false;
+							editValue = "";
+							idEdit = "";
 						}}
 						class="rounded-xl border border-neutral-200 px-4 py-2.5
 							text-sm font-medium text-neutral-700 transition hover:bg-neutral-50"
@@ -246,7 +330,7 @@
 							text-white transition hover:bg-neutral-700
 							disabled:cursor-not-allowed disabled:opacity-50"
 					>
-						{isSubmitting ? 'Creating...' : 'Create Category'}
+						{isSubmitting ? 'Creating...' : editValue === "" ? 'Create Category' : 'Update Category'}
 					</button>
 				</div>
 			</form>
