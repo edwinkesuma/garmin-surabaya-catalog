@@ -1,6 +1,33 @@
 import { fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { createSlug } from '#lib/utils/slug.ts';
+
+export const load: PageServerLoad = async ({ locals }) => {
+//   const { data, error } = await locals.supabase
+//     .from('categories')
+//     .select('id, name, slug, created_at')
+//     .order('id');
+	const { data, error } = await locals.supabase
+  		.from('category_list')
+  		.select('*')
+  		.order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Load categories failed:', error.message);
+
+    return {
+      categories: [],
+      error: 'Gagal memuat categories.'
+    };
+  }
+
+  console.log(data);
+  return {
+    categories: data ?? [],
+    error: null
+  };
+};
+
 
 export const actions: Actions = {
 	create: async ({ request, locals }) => {

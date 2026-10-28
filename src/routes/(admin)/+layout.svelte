@@ -4,7 +4,6 @@
   let mobileMenuOpen = $state(false);
 
   const navItems = [
-    { label: 'Overview', href: '/admin', icon: 'grid' },
     { label: 'Products', href: '/admin/products', icon: 'box' },
     { label: 'Categories', href: '/admin/categories', icon: 'layers' }
   ];
