@@ -3,10 +3,6 @@ import type { Actions, PageServerLoad } from './$types';
 import { createSlug } from '#lib/utils/slug.ts';
 
 export const load: PageServerLoad = async ({ locals }) => {
-//   const { data, error } = await locals.supabase
-//     .from('categories')
-//     .select('id, name, slug, created_at')
-//     .order('id');
 	const { data, error } = await locals.supabase
   		.from('category_list')
   		.select('*')
@@ -83,5 +79,88 @@ export const actions: Actions = {
 		return {
 			success: true
 		};
+	},
+
+	delete: async ({ request, locals }) => {
+    	if (!locals.user) {
+        	return fail(401, {
+            	message: 'Silakan login terlebih dahulu.'
+        	});
+    	}
+
+    	// Pastikan pengguna adalah admin.
+    	if (locals.profile?.role !== 'admin') {
+        	return fail(403, {
+            	message: 'Kamu tidak memiliki akses untuk menghapus kategori.'
+        	});
+    	}
+
+    	const formData = await request.formData();
+    	const rawId = formData.get('id');
+
+    	// if (
+        // 	typeof rawId !== 'string' ||
+        // 	!/^[1-9]\d*$/.test(rawId) ||
+        // 	!Number.isSafeInteger(Number(rawId))
+    	// ) {
+        // 	return fail(400, {
+        //     	message: 'ID kategori tidak valid.'
+        // 	});
+    	// }
+
+    	// const id = Number(rawId);
+
+    	// Periksa apakah kategori masih digunakan oleh produk.
+    	const { count, error: countError } = await locals.supabase
+        	.from('products')
+        	.select('id', { count: 'exact', head: true })
+        	.eq('category_id', rawId);
+
+    	if (countError) {
+        	console.error(
+            	'Check category products failed:',
+            	countError.message
+        	);
+
+        	return fail(500, {
+            	message: 'Gagal memeriksa produk dalam kategori.'
+        	});
+    	}
+
+    	if ((count ?? 0) > 0) {
+        	return fail(400, {
+            	message: `Kategori ini masih digunakan oleh ${count} produk. Pindahkan produk ke kategori lain sebelum menghapusnya.`
+        	});
+    	}
+
+    	// Hapus kategori jika tidak memiliki produk.
+    	const { data, error } = await locals.supabase
+        	.from('categories')
+        	.delete()
+        	.eq('id', rawId)
+        	.select('id')
+        	.maybeSingle();
+
+    	if (error) {
+        	console.error(
+            	'Delete category failed:',
+            	error.message
+        	);
+
+        	return fail(500, {
+            	message: 'Gagal menghapus kategori.'
+        	});
+    	}
+
+    	if (!data) {
+        	return fail(404, {
+            	message: 'Kategori tidak ditemukan atau tidak dapat dihapus.'
+        	});
+    	}
+
+    	return {
+        	success: true,
+        	message: 'Kategori berhasil dihapus.'
+    	};
 	}
 };

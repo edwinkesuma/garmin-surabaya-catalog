@@ -8,7 +8,8 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			supabase: SupabaseClient;
-			user: Record<string, unknown> | null;
+			user: { sub: string; [key: string]: unknown } | null;
+            profile: { role: string } | null;
 		}
 		// interface PageData {}
 		// interface PageState {}
