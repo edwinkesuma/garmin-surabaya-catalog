@@ -68,25 +68,6 @@
   </aside>
 
   <div class="min-w-0 flex-1">
-    <header class="sticky top-0 z-20 flex h-[76px] items-center justify-between border-b border-black/[0.06] bg-white/90 px-4 backdrop-blur-xl sm:px-7 lg:px-10">
-      <div class="flex min-w-0 items-center gap-3">
-        <button class="flex h-9 w-9 items-center justify-center rounded-xl border border-black/10 text-[#55534e] lg:hidden" aria-label="Open navigation" onclick={() => (mobileMenuOpen = true)}>
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-        <div class="hidden h-10 w-[min(38vw,390px)] items-center gap-2.5 rounded-xl border border-black/[0.07] bg-[#faf9f7] px-3.5 md:flex">
-          <svg viewBox="0 0 24 24" class="h-4 w-4 text-[#929088]" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
-          <span class="text-xs text-[#9a9891]">Search your workspace...</span>
-          <kbd class="ml-auto rounded border border-black/[0.08] bg-white px-1.5 py-0.5 text-[9px] text-[#9a9891]">⌘ K</kbd>
-        </div>
-        <span class="text-sm font-semibold md:hidden">Nestify<span class="text-[#b68b65]">.</span></span>
-      </div>
-      <div class="flex items-center gap-3 sm:gap-5">
-        <button aria-label="Notifications" class="relative flex h-9 w-9 items-center justify-center rounded-xl border border-black/[0.07] text-[#66645e] transition hover:bg-[#f7f6f3]">
-          <svg viewBox="0 0 24 24" class="h-[17px] w-[17px]" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[#b68b65]"></span>
-        </button>
-        <div class="hidden items-center gap-2.5 sm:flex"><div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#e8d9c9] text-[10px] font-semibold text-[#6f5038]">EK</div><div><p class="text-xs font-medium">Edwin Kesuma</p><p class="mt-0.5 text-[10px] text-[#929088]">Admin account</p></div><svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-[#929088]" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m7 10 5 5 5-5"/></svg></div>
-      </div>
-    </header>
     <main class="mx-auto w-full max-w-[1600px] px-4 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-10">
       {@render children()}
     </main>
