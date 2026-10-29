@@ -17,8 +17,8 @@
 </script>
 
 <svelte:head>
-  <title>Nestify Admin</title>
-  <meta name="description" content="Manage your Nestify product catalog." />
+  <title>GARMIN PAKUWON Admin</title>
+  <meta name="description" content="Manage your GARMIN PAKUWON product catalog." />
 </svelte:head>
 
 <div class="min-h-screen bg-[#f6f5f2] text-[#20201e] lg:flex">
@@ -31,7 +31,7 @@
       <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#20201e] text-white">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/><path d="M8 8h.01M16 8h.01"/></svg>
       </span>
-      <span class="text-[17px] font-semibold tracking-tight">Nestify<span class="text-[#b68b65]">.</span></span>
+      <span class="text-[17px] font-semibold tracking-tight">GARMIN PAKUWON<span class="text-[#b68b65]">.</span></span>
     </a>
 
     <div class="px-4 pt-7">
@@ -70,6 +70,6 @@
     <main class="mx-auto w-full max-w-[1600px] px-4 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-10">
       {@render children()}
     </main>
-    <footer class="px-4 pb-6 text-center text-[10px] text-[#a09e97] sm:px-7 lg:px-10">© 2026 Nestify Admin · Crafted for a calmer workflow</footer>
+    <footer class="px-4 pb-6 text-center text-[10px] text-[#a09e97] sm:px-7 lg:px-10">© 2026 GARMIN PAKUWON Admin · Crafted for a calmer workflow</footer>
   </div>
 </div>

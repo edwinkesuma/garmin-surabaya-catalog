@@ -39,7 +39,7 @@
               				Create your account
             			</h1>
             			<p class="mt-4 max-w-xs text-sm leading-6 text-[#5e6265]">
-              				Join Nestify and start discovering furniture for your dream space.
+              				Join GARMIN PAKUWON and start discovering furniture for your dream space.
             			</p>
           			</div>
 				</aside>

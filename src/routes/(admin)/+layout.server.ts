@@ -21,6 +21,7 @@ export const load: LayoutServerLoad = async ({
     .eq('id', user.id)
     .single();
 
+    console.log(`profile: ${profile?.role}`);
   // Profil tidak ditemukan atau gagal diperiksa
   if (error || !profile) {
     redirect(303, '/');

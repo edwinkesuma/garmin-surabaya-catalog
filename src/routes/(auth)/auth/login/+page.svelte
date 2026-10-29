@@ -49,7 +49,7 @@
               <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current" aria-hidden="true">
                 <path d="M3 10.2 12 3l9 7.2v10.3h-6.1v-6.4H9.1v6.4H3V10.2Z" />
               </svg>
-              Nestify
+              GARMIN PAKUWON
             </a>
             <p class="text-xs text-[#777d82]">
               Don't have an account?
@@ -68,7 +68,7 @@
               Welcome back
             </h2>
             <p class="mt-1 text-sm text-[#777d82]">
-              Sign in to your Nestify account
+              Sign in to your GARMIN PAKUWON account
             </p>
 
             <form class="mt-8 space-y-5" method="POST">

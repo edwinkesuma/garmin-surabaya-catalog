@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
   let search = $state('');
   let categoryFilter = $state('All categories');
 
@@ -23,12 +25,20 @@
   }
 </script>
 
-<svelte:head><title>Products · Nestify Admin</title></svelte:head>
+<svelte:head><title>Products · GARMIN PAKUWON Admin</title></svelte:head>
 
 <div class="space-y-7">
   <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
     <div><div class="mb-2 flex items-center gap-2 text-[11px] font-medium text-[#96938b]"><span>Catalog</span><span>/</span><span class="text-[#4b4943]">Products</span></div><h1 class="font-serif text-[34px] leading-tight tracking-[-0.04em] sm:text-[40px]">Products</h1><p class="mt-2 text-sm text-[#85837c]">Manage your inventory and keep your catalog in shape.</p></div>
-    <button onclick={() => alert('Connect this button to your /admin/products/new route or form action.')} class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#222220] px-4 text-xs font-semibold text-white shadow-sm transition hover:bg-[#3a3935] active:scale-[0.98]"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add product</button>
+    <button 
+      onclick={() => goto("/admin/products/create")} 
+      class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#222220] px-4 text-xs font-semibold text-white shadow-sm transition hover:bg-[#3a3935] active:scale-[0.98]"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+      Add product
+    </button>
   </div>
 
   <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">

@@ -18,7 +18,7 @@
   let isSubmitting = $state(false);
 </script>
 
-<svelte:head><title>Categories · Nestify Admin</title></svelte:head>
+<svelte:head><title>Categories · GARMIN PAKUWON Admin</title></svelte:head>
 
 <div class="space-y-7">
   <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
