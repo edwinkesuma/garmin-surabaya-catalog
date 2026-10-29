@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { PageData } from './$types';
+	import type { PageData, ActionData } from './$types';
+	import { enhance } from '$app/forms';
 
-	let { data }: { data: PageData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	let search = $state('');
 	let categoryFilter = $state('All categories');
@@ -35,14 +36,29 @@
 		products.filter((product) => product.status === 'Published').length
 	);
 
-	function removeProduct(id: string) {
-		alert(`Fitur hapus produk ${id} belum dihubungkan ke database.`);
-	}
 </script>
 
 <svelte:head>
 	<title>Products · GARMIN PAKUWON Admin</title>
 </svelte:head>
+
+{#if form?.deleteError}
+    <div
+        role="alert"
+        class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
+        {form.deleteError}
+    </div>
+{/if}
+
+{#if form?.success}
+    <div
+        role="status"
+        class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
+    >
+        Produk "{form.deletedProduct}" berhasil dihapus.
+    </div>
+{/if}
 
 <div class="space-y-7">
 	<!-- Header -->
@@ -300,23 +316,40 @@
 										</svg>
 									</button>
 
-									<button
-										aria-label={`Delete ${product.name}`}
-										onclick={() => removeProduct(product.id)}
-										class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#8a7770] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
-									>
-										<svg
-											viewBox="0 0 24 24"
-											class="h-3.5 w-3.5"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="1.7"
-										>
-											<path
-												d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"
-											/>
-										</svg>
-									</button>
+									<form
+    method="POST"
+    action="?/delete"
+    use:enhance
+    onsubmit={(event) => {
+        if (
+            !confirm(
+                `Apakah kamu yakin ingin menghapus produk "${product.name}"?`
+            )
+        ) {
+            event.preventDefault();
+        }
+    }}
+>
+    <input type="hidden" name="id" value={product.id} />
+
+    <button
+        type="submit"
+        aria-label={`Delete ${product.name}`}
+        class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#8a7770] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            class="h-3.5 w-3.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+        >
+            <path
+                d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"
+            />
+        </svg>
+    </button>
+</form>
 								</div>
 							</td>
 						</tr>
@@ -405,23 +438,40 @@
 									</svg>
 								</button>
 
-								<button
-									aria-label={`Delete ${product.name}`}
-									onclick={() => removeProduct(product.id)}
-									class="rounded-lg border border-black/10 p-2 text-[#8a7770]"
-								>
-									<svg
-										viewBox="0 0 24 24"
-										class="h-3.5 w-3.5"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="1.7"
-									>
-										<path
-											d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"
-										/>
-									</svg>
-								</button>
+								<form
+    method="POST"
+    action="?/delete"
+    use:enhance
+    onsubmit={(event) => {
+        if (
+            !confirm(
+                `Apakah kamu yakin ingin menghapus produk "${product.name}"?`
+            )
+        ) {
+            event.preventDefault();
+        }
+    }}
+>
+    <input type="hidden" name="id" value={product.id} />
+
+    <button
+        type="submit"
+        aria-label={`Delete ${product.name}`}
+        class="rounded-lg border border-black/10 p-2 text-[#8a7770]"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            class="h-3.5 w-3.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+        >
+            <path
+                d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"
+            />
+        </svg>
+    </button>
+</form>
 							</div>
 						</div>
 					</div>

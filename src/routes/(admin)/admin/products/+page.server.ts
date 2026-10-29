@@ -1,6 +1,6 @@
 
-import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { error, fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
 const PAGE_SIZE = 10;
 
@@ -250,4 +250,69 @@ export const load: PageServerLoad = async ({ locals, url }) => {
       status
     }
   };
+};
+
+export const actions: Actions = {
+    delete: async ({ request, locals }) => {
+        const { supabase, user } = locals;
+
+        if (!user) {
+            return fail(401, {
+                deleteError: 'Silakan login terlebih dahulu.'
+            });
+        }
+
+        const formData = await request.formData();
+        const productId = formData.get('id');
+
+        if (
+            typeof productId !== 'string' ||
+            !productId.trim()
+        ) {
+            return fail(400, {
+                deleteError: 'ID produk tidak valid.'
+            });
+        }
+
+        // Pastikan produk tersedia sebelum menghapus.
+        const { data: product, error: findError } = await supabase
+            .from('products')
+            .select('id, name')
+            .eq('id', productId)
+            .maybeSingle();
+
+        if (findError) {
+            console.error('Find product error:', findError);
+
+            return fail(500, {
+                deleteError: 'Gagal memeriksa data produk.'
+            });
+        }
+
+        if (!product) {
+            return fail(404, {
+                deleteError: 'Produk tidak ditemukan.'
+            });
+        }
+
+        // Hapus produk dari database.
+        const { error: deleteError } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', productId);
+
+        if (deleteError) {
+            console.error('Delete product error:', deleteError);
+
+            return fail(500, {
+                deleteError:
+                    'Gagal menghapus produk. Periksa relasi tabel dan izin database.'
+            });
+        }
+
+        return {
+            success: true,
+            deletedProduct: product.name
+        };
+    }
 };
