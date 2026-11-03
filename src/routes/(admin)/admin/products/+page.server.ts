@@ -274,10 +274,20 @@ export const actions: Actions = {
             });
         }
 
-        // Pastikan produk tersedia sebelum menghapus.
+        // 1. Ambil produk beserta seluruh gambar variannya.
         const { data: product, error: findError } = await supabase
             .from('products')
-            .select('id, name')
+            .select(`
+                id,
+                name,
+                variant_groups (
+                    product_variants (
+                        variant_images (
+                            image_url
+                        )
+                    )
+                )
+            `)
             .eq('id', productId)
             .maybeSingle();
 
@@ -285,7 +295,7 @@ export const actions: Actions = {
             console.error('Find product error:', findError);
 
             return fail(500, {
-                deleteError: 'Gagal memeriksa data produk.'
+                deleteError: 'Gagal mengambil data produk.'
             });
         }
 
@@ -295,7 +305,64 @@ export const actions: Actions = {
             });
         }
 
-        // Hapus produk dari database.
+        // 2. Kumpulkan URL gambar dari semua varian.
+        const imageUrls = [
+            ...new Set(
+                (product.variant_groups ?? []).flatMap((group) =>
+                    (group.product_variants ?? []).flatMap((variant) =>
+                        (variant.variant_images ?? [])
+                            .map((image) => image.image_url)
+                            .filter(
+                                (url): url is string =>
+                                    typeof url === 'string' &&
+                                    url.trim().length > 0
+                            )
+                    )
+                )
+            )
+        ];
+
+        // 3. Ubah URL gambar menjadi path relatif bucket.
+        const bucket = 'product-images';
+        const marker = `/storage/v1/object/public/${bucket}/`;
+
+        const storagePaths: string[] = [];
+        const invalidUrls: string[] = [];
+
+        for (const imageUrl of imageUrls) {
+            try {
+                // Mendukung URL public lengkap maupun path relatif.
+                if (!imageUrl.startsWith('http')) {
+                    storagePaths.push(
+                        imageUrl.replace(/^\/+/, '')
+                    );
+                    continue;
+                }
+
+                const url = new URL(imageUrl);
+                const markerIndex = url.pathname.indexOf(marker);
+
+                if (markerIndex === -1) {
+                    invalidUrls.push(imageUrl);
+                    continue;
+                }
+
+                const path = decodeURIComponent(
+                    url.pathname.slice(markerIndex + marker.length)
+                );
+
+                if (path) {
+                    storagePaths.push(path);
+                } else {
+                    invalidUrls.push(imageUrl);
+                }
+            } catch {
+                invalidUrls.push(imageUrl);
+            }
+        }
+
+        // 4. Hapus produk dari database.
+        // Relasi anak dihapus melalui ON DELETE CASCADE.
         const { error: deleteError } = await supabase
             .from('products')
             .delete()
@@ -310,9 +377,46 @@ export const actions: Actions = {
             });
         }
 
+        // 5. Hapus file fisik dari Supabase Storage.
+        let storageWarning: string | null = null;
+
+        if (storagePaths.length > 0) {
+            const { data: removedFiles, error: storageError } =
+                await supabase.storage
+                    .from(bucket)
+                    .remove(storagePaths);
+
+            if (storageError) {
+                console.error(
+                    'Delete storage images error:',
+                    storageError
+                );
+
+                storageWarning =
+                    'Produk berhasil dihapus, tetapi beberapa gambar di Storage gagal dihapus.';
+            } else if (
+                !removedFiles ||
+                removedFiles.length !== storagePaths.length
+            ) {
+                storageWarning =
+                    'Produk berhasil dihapus, tetapi jumlah file yang terhapus berbeda dari jumlah yang diminta.';
+            }
+        }
+
+        if (invalidUrls.length > 0) {
+            console.warn(
+                'Image URLs could not be converted to Storage paths:',
+                invalidUrls
+            );
+
+            storageWarning =
+                'Produk berhasil dihapus, tetapi ada URL gambar yang tidak dikenali.';
+        }
+
         return {
             success: true,
-            deletedProduct: product.name
+            deletedProduct: product.name,
+            ...(storageWarning ? { storageWarning } : {})
         };
     }
 };

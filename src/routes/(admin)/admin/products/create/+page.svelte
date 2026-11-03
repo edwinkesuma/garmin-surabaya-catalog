@@ -58,48 +58,7 @@
         }).format(amount);
     };
 
-	let variants = $state<Variant[]>([
-		{
-			id: 1,
-			name: 'AMOLED',
-			subVariants: [
-				{
-					id: 1,
-					name: 'White',
-					price: '1099',
-					is_active: true,
-					images: []
-				},
-				{
-					id: 2,
-					name: 'Orange',
-					price: '1099',
-					is_active: true,
-					images: []
-				}
-			]
-		},
-		{
-			id: 2,
-			name: 'Solar',
-			subVariants: [
-				{
-					id: 3,
-					name: 'Slate',
-					price: '1199',
-					is_active: true,
-					images: []
-				},
-				{
-					id: 4,
-					name: 'Carbon Gray',
-					price: '1199',
-					is_active: true,
-					images: []
-				}
-			]
-		}
-	]);
+	let variants = $state<Variant[]>([]);
 
 	function addVariant() {
 		variants.push({
@@ -594,7 +553,7 @@
 								class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#252525] focus:ring-2 focus:ring-gray-100"
 							/>
 						</div>
-                        
+
 						<div class="md:col-span-2">
 							<label for="category" class="mb-2 block text-sm font-medium">
 								Category <span class="text-red-500">*</span>

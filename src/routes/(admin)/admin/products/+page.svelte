@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
 
@@ -300,7 +301,7 @@
 									<button
 										aria-label={`Edit ${product.name}`}
 										onclick={() =>
-											goto(`/admin/products/${product.id}/edit`)}
+											goto(resolve(`/admin/products/${product.id}/edit` as `/admin/products/[id]/edit`))}
 										class="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.08] text-[#68665f] transition hover:border-black/20 hover:bg-[#f6f5f2]"
 									>
 										<svg
@@ -409,10 +410,6 @@
 
 						<div class="mt-2.5 flex items-center justify-between gap-2">
 							<div>
-								<p class="text-xs font-semibold">
-									{money(product.price)}
-								</p>
-
 								<p class="mt-1 text-[10px] text-[#99978f]">
 									{product.category}
 								</p>
