@@ -31,6 +31,6 @@ console.log(`error code: ${error.code},
       });
     }
 
-    throw redirect(303, '/');
+    throw redirect(303, '/admin/products');
   }
 };

@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-	<title>Products · GARMIN PAKUWON Admin</title>
+	<title>Products · Garmin Pakuwon Mall Surabaya Admin</title>
 </svelte:head>
 
 {#if form?.deleteError}

@@ -11,9 +11,9 @@
 
 <svelte:head>
 	<title>
-		Create account - GARMIN PAKUWON
+		Create account - Garmin Pakuwon Mall Surabaya
 	</title>
-	<meta name="description" content="Create your GARMIN PAKUWON account." />
+	<meta name="description" content="Create your Garmin Pakuwon Mall Surabaya account." />
 </svelte:head>
 
 <main class="min-h-screen bg-[#f5f2ed] px-4 py-6 text-[#202326] sm:px-8 lg:px-12 lg:py-10">
@@ -23,23 +23,23 @@
 				<!-- Photo + brand panel -->
 				<aside class="relative hidden min-h-full overflow-hidden md:block">
 				 	<img 
-				 		src="/images/watch.png" 
+				 		src="/images/watch-signup.png" 
 				 		alt=""
 						class="absolute inset-0 h-full w-full object-cover"/>
 
 					<div class="absolute inset-0 bg-linear-to-b from-[#e7ded2]/50 via-transparent to-[#4a3525]/10"></div>
 					
-					<a href="/" class="absolute left-7 top-7 inline-flex items-center gap-2 font-semibold tracking-tight">
-						<Webhook size={25}/>
-            			GARMIN PAKUWON
-					</a>
+					<a href="/" class="logo absolute left-7 top-7 inline-flex items-center gap-2">
+				    <span class="logo-icon">G</span>
+				    <span class="text-base">Garmin Pakuwon<br> Mall Surabaya<span class="logo-accent">.</span></span>
+			    </a>
 
 					<div class="absolute left-7 right-7 top-[22%] max-w-sm">
             			<h1 class="font-serif text-3xl font-medium leading-[1.12] tracking-tight lg:text-[2.55rem]">
               				Create your account
             			</h1>
             			<p class="mt-4 max-w-xs text-sm leading-6 text-[#5e6265]">
-              				Join GARMIN PAKUWON and start discovering furniture for your dream space.
+              				Join Garmin Pakuwon Mall Surabaya and start discovering your favorite products.
             			</p>
           			</div>
 				</aside>
@@ -183,3 +183,29 @@
 		</section>
 	</div>
 </main>
+
+<style>
+  .logo {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 21px;
+		font-weight: 750;
+		white-space: nowrap;
+	}
+
+	.logo-icon {
+		display: grid;
+		place-items: center;
+		width: 34px;
+		height: 34px;
+		border-radius: 10px;
+		background: #252525;
+		color: white;
+		font-size: 18px;
+	}
+
+	.logo-accent {
+		color: #bd895f;
+	}
+</style>

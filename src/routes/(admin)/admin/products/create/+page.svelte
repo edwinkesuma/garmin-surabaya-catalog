@@ -429,7 +429,7 @@
 </script>
 
 <svelte:head>
-	<title>Create Product | GARMIN PAKUWON</title>
+	<title>Create Product | Garmin Pakuwon Mall Surabaya</title>
 	<meta
 		name="description"
 		content="Create a product and manage its variants."

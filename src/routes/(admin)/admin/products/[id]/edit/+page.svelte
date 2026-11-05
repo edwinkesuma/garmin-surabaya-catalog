@@ -368,7 +368,7 @@
 </script>
 
 <svelte:head>
-	<title>Edit Product | GARMIN PAKUWON</title>
+	<title>Edit Product | Garmin Pakuwon Mall Surabaya</title>
 	<meta
 		name="description"
 		content="Edit a product and manage its variants."

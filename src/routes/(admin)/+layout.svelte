@@ -17,8 +17,8 @@
 </script>
 
 <svelte:head>
-  <title>GARMIN PAKUWON Admin</title>
-  <meta name="description" content="Manage your GARMIN PAKUWON product catalog." />
+  <title>Garmin Pakuwon Mall Surabaya Admin</title>
+  <meta name="description" content="Manage your Garmin Pakuwon Mall Surabaya product catalog." />
 </svelte:head>
 
 <div class="min-h-screen bg-[#f6f5f2] text-[#20201e] lg:flex">
@@ -27,12 +27,10 @@
   {/if}
 
   <aside class={`fixed inset-y-0 left-0 z-40 flex w-[248px] flex-col border-r border-black/[0.06] bg-white transition-transform duration-200 lg:static lg:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-    <a href="/admin/products" class="flex h-[76px] items-center gap-3 border-b border-black/[0.06] px-7">
-      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#20201e] text-white">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/><path d="M8 8h.01M16 8h.01"/></svg>
-      </span>
-      <span class="text-[17px] font-semibold tracking-tight">GARMIN PAKUWON<span class="text-[#b68b65]">.</span></span>
-    </a>
+    <a href="/admin/products" class="logo flex h-[76px] items-center gap-3 border-b border-black/[0.06] px-7">
+			<span class="logo-icon">G</span>
+			<span class="text-sm">Garmin Pakuwon<br> Mall Surabaya<span class="logo-accent">.</span></span>
+		</a>
 
     <div class="px-4 pt-7">
       <p class="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9b9993]">Workspace</p>
@@ -70,6 +68,32 @@
     <main class="mx-auto w-full max-w-[1600px] px-4 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-10">
       {@render children()}
     </main>
-    <footer class="px-4 pb-6 text-center text-[10px] text-[#a09e97] sm:px-7 lg:px-10">© 2026 GARMIN PAKUWON Admin · Crafted for a calmer workflow</footer>
+    <footer class="px-4 pb-6 text-center text-[10px] text-[#a09e97] sm:px-7 lg:px-10">© 2026 Garmin Pakuwon Mall Surabaya Admin · Crafted for a calmer workflow</footer>
   </div>
 </div>
+
+<style>
+  .logo {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 21px;
+		font-weight: 750;
+		white-space: nowrap;
+	}
+
+	.logo-icon {
+		display: grid;
+		place-items: center;
+		width: 34px;
+		height: 34px;
+		border-radius: 10px;
+		background: #252525;
+		color: white;
+		font-size: 18px;
+	}
+
+	.logo-accent {
+		color: #bd895f;
+	}
+</style>
